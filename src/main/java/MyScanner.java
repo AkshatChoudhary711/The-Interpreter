@@ -23,6 +23,7 @@ enum TokenType {
     GREATER_EQUAL,
     LESS,
     LESS_EQUAL,
+    STRING
 
 }
 
@@ -116,6 +117,19 @@ public class MyScanner {
             case '\n':    //Increment line number
                 curLine++;
                 break;
+            case '"':
+                StringBuilder str = new StringBuilder();
+                while(peek()!='"' && peek()!='\0'){
+                    if(peek()=='\n') curLine++;
+                    str.append(advance());
+                }
+                if(peek()=='\0'){
+                    System.err.println("[line " + curLine + "] Error: Unterminated string.");
+                    errCode = 65;
+                }else{
+                    advance();
+                    addToken(TokenType.STRING, str.toString(), str.toString(),curLine);
+                }
 
             //If character not in enum
             default:
@@ -124,7 +138,6 @@ public class MyScanner {
 
         }
     }
-
 
     void scanAll() {
         while (current < source.length()) {
