@@ -24,7 +24,9 @@ enum TokenType {
     LESS,
     LESS_EQUAL,
     STRING,
-    NUMBER
+    NUMBER,
+    IDENTIFIER
+
 
 }
 
@@ -156,6 +158,16 @@ public class MyScanner {
 
             //If character not in enum
             default:
+                if(Character.isAlphabetic(c)|| c=='_'){
+                    StringBuilder id = new StringBuilder();
+                    id.append(c);
+                    while(Character.isAlphabetic(peek()) || Character.isDigit(peek())){
+                        id.append(advance());
+                    }
+                    addToken(TokenType.IDENTIFIER, id.toString(), null,curLine);
+                    break;
+
+                }
                 System.err.println("[line " + curLine + "] Error: Unexpected character: " + c);
                 errCode = 65;
 
