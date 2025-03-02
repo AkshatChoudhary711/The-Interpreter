@@ -134,7 +134,7 @@ public class MyScanner {
                     errCode = 65;
                 }else{
                     advance();
-                    addToken(TokenType.STRING, '"'+str.toString()+'"', null,curLine);
+                    addToken(TokenType.STRING, '"'+str.toString()+'"', str.toString(),curLine);
                 }
                 break;
 
