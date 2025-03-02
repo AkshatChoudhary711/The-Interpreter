@@ -4,6 +4,20 @@ import java.util.List;
 
 public class MyScanner {
     HashMap<Character, TokenType> singleTokenMap = new HashMap<>();
+    {
+        singleTokenMap.put('(', TokenType.LEFT_PAREN);
+        singleTokenMap.put(')', TokenType.RIGHT_PAREN);
+        singleTokenMap.put('{', TokenType.LEFT_BRACE);
+        singleTokenMap.put('}', TokenType.RIGHT_BRACE);
+        singleTokenMap.put('*', TokenType.STAR);
+        singleTokenMap.put('+', TokenType.PLUS);
+        singleTokenMap.put('-', TokenType.MINUS);
+        singleTokenMap.put(';', TokenType.SEMICOLON);
+        singleTokenMap.put(',', TokenType.COMMA);
+        singleTokenMap.put('/', TokenType.SLASH);
+        singleTokenMap.put('.', TokenType.DOT);
+    } //single tokens
+
     private final String source;
     private int current;
     private final List<Token> tokens = new ArrayList<>();
