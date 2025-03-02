@@ -124,7 +124,7 @@ public class MyScanner {
     }
 
     void scan() {
-        char c = advance();
+        char c = moveNext();
         switch (c) {
             case '(', ')', '{', '}', '.', '*', '-', '+', ',', ';':
                 addToken(singleTokenMap.get(c), Character.toString(c), null,this.curLine);
@@ -132,9 +132,9 @@ public class MyScanner {
 
             //Checking single slash and comments
             case '/':
-                if (peek() == '/') {
+                if (checkNext() == '/') {
                     //A comment goes until the end of the line
-                    while (peek() != '\n' && peek() != '\0') advance();
+                    while (checkNext() != '\n' && checkNext() != '\0') moveNext();
 
                 } else {
                     addToken(singleTokenMap.get(c), Character.toString(c), null,this.curLine);
@@ -143,8 +143,8 @@ public class MyScanner {
 
             //checking  for relational operators
             case '=', '<', '>', '!':
-                if (peek() == '=') {
-                    String op = Character.toString(c) + advance();
+                if (checkNext() == '=') {
+                    String op = Character.toString(c) + moveNext();
                     addToken(multiTokenMap.get(op), op, null,curLine);
                 } else {
                     addToken(singleTokenMap.get(c), Character.toString(c), null,curLine);
@@ -160,20 +160,20 @@ public class MyScanner {
 
             case '"':
                 StringBuilder str = new StringBuilder();
-                while(peek()!='"' && peek()!='\0'){
-                    if(peek()=='\n') {
+                while(checkNext()!='"' && checkNext()!='\0'){
+                    if(checkNext()=='\n') {
                     curLine++;
 //                    advance();
 //                    continue;
                     }
 
-                    str.append(advance());
+                    str.append(moveNext());
                 }
-                if(peek()=='\0'){
+                if(checkNext()=='\0'){
                     System.err.println("[line " + curLine + "] Error: Unterminated string.");
                     errCode = 65;
                 }else{
-                    advance();
+                    moveNext();
                     addToken(TokenType.STRING, '"'+str.toString()+'"', str.toString(),curLine);
                 }
                 break;
@@ -181,13 +181,13 @@ public class MyScanner {
             case '1','2','3','4','5','6','7','8','9','0':
                 StringBuilder num = new StringBuilder();
                 num.append(c);
-                while(Character.isDigit(peek())){
-                    num.append(advance());
+                while(Character.isDigit(checkNext())){
+                    num.append(moveNext());
                 }
-                if(peek()=='.' && Character.isDigit(source.charAt(current+1))){
+                if(checkNext()=='.' && Character.isDigit(source.charAt(current+1))){
                     do {
-                        num.append(advance());
-                    } while (Character.isDigit(peek()));
+                        num.append(moveNext());
+                    } while (Character.isDigit(checkNext()));
                 }
 
                 addToken(TokenType.NUMBER, num.toString(), Double.parseDouble(num.toString()),curLine);
@@ -198,8 +198,8 @@ public class MyScanner {
                 if(Character.isAlphabetic(c)|| c=='_'){
                     StringBuilder id = new StringBuilder();
                     id.append(c);
-                    while(Character.isAlphabetic(peek()) || Character.isDigit(peek())|| peek()=='_'){
-                        id.append(advance());
+                    while(Character.isAlphabetic(checkNext()) || Character.isDigit(checkNext())|| checkNext()=='_'){
+                        id.append(moveNext());
                     }
                     if(keywordMap.containsKey(id.toString())){
 
@@ -216,19 +216,19 @@ public class MyScanner {
         }
     }
 
-    void scanAll() {
+    void scanSource() {
         while (current < source.length()) {
             scan();
         }
         addToken(TokenType.EOF, "", null,curLine);
     }
 
-    char peek() {
+    char checkNext() {
         if (current >= source.length()) return '\0';
         return source.charAt(current);
     }
 
-    char advance() {
+    char moveNext() {
         if (current >= source.length()) return '\0';
         char cur = source.charAt(current);
         current++;

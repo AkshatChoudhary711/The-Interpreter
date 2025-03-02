@@ -1,8 +1,6 @@
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.*;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -31,7 +29,7 @@ public class Main {
         }
 
         MyScanner scanner = new MyScanner(fileContents);
-        scanner.scanAll();
+        scanner.scanSource();
         for (Token token : scanner.getTokens()) {
             System.out.println(token.toString());
 
