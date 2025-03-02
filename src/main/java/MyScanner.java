@@ -59,6 +59,7 @@ public class MyScanner {
                 break;
             default:
                 System.err.println("[line "+1+"] Error: Unexpected character: "+ c);
+                System.exit(65);
         }
     }
 
@@ -66,7 +67,7 @@ public class MyScanner {
         while (current < source.length()) {
             scan();
         }
-        addToken(TokenType.EOF,  " ", null);
+        addToken(TokenType.EOF,  "", null);
     }
 
     char peek() {
