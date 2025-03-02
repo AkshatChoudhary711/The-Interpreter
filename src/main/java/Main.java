@@ -122,7 +122,9 @@ public class Main {
 //        }
         MyScanner scanner = new MyScanner(fileContents);
         scanner.scanAll();
-        System.out.println(scanner.getTokens());
+        for(Token token : scanner.getTokens()) {
+            System.out.println(token);
+        }
 
 
         System.out.println("EOF  null");// Placeholder, remove this line when implementing the scanner
