@@ -25,14 +25,32 @@ enum TokenType {
     LESS_EQUAL,
     STRING,
     NUMBER,
-    IDENTIFIER
-
+    IDENTIFIER,
+    AND,
+    OR,
+    IF,
+    ELSE,
+    WHILE,
+    FOR,
+    FUN,
+    RETURN,
+    VAR,
+    CLASS,
+    THIS,
+    SUPER,
+    NIL,
+    TRUE,
+    FALSE,
+    PRINT,
+    BREAK,
+    CONTINUE
 
 }
 
 public class MyScanner {
     HashMap<Character, TokenType> singleTokenMap = new HashMap<>();
     HashMap<String, TokenType> multiTokenMap = new HashMap<>();
+    HashMap<String, TokenType> keywordMap = new HashMap<>();
 
     {
         singleTokenMap.put('(', TokenType.LEFT_PAREN);
@@ -57,8 +75,27 @@ public class MyScanner {
         multiTokenMap.put("!=", TokenType.BANG_EQUAL);
         multiTokenMap.put(">=", TokenType.GREATER_EQUAL);
         multiTokenMap.put("<=", TokenType.LESS_EQUAL);
-    }//double tokens
+    } //double tokens
 
+    {   keywordMap.put("and", TokenType.AND);
+        keywordMap.put("or", TokenType.OR);
+        keywordMap.put("if", TokenType.IF);
+        keywordMap.put("else", TokenType.ELSE);
+        keywordMap.put("while", TokenType.WHILE);
+        keywordMap.put("for", TokenType.FOR);
+        keywordMap.put("fun", TokenType.FUN);
+        keywordMap.put("return", TokenType.RETURN);
+        keywordMap.put("var", TokenType.VAR);
+        keywordMap.put("class", TokenType.CLASS);
+        keywordMap.put("this", TokenType.THIS);
+        keywordMap.put("super", TokenType.SUPER);
+        keywordMap.put("nil", TokenType.NIL);
+        keywordMap.put("true", TokenType.TRUE);
+        keywordMap.put("false", TokenType.FALSE);
+        keywordMap.put("print", TokenType.PRINT);
+        keywordMap.put("break", TokenType.BREAK);
+        keywordMap.put("continue", TokenType.CONTINUE);
+    } //reserved words
 
     private final String source;
     private int curLine;
@@ -163,6 +200,11 @@ public class MyScanner {
                     id.append(c);
                     while(Character.isAlphabetic(peek()) || Character.isDigit(peek())|| peek()=='_'){
                         id.append(advance());
+                    }
+                    if(keywordMap.containsKey(id.toString())){
+
+                        addToken(keywordMap.get(id.toString()), id.toString(), null,curLine);
+                        break;
                     }
                     addToken(TokenType.IDENTIFIER, id.toString(), null,curLine);
                     break;
