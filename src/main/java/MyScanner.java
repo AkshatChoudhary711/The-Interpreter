@@ -119,7 +119,7 @@ public class MyScanner {
 
             //If character not in enum
             default:
-                System.err.println("[line " + 1 + "] Error: Unexpected character: " + c);
+                System.err.println("[line " + curLine + "] Error: Unexpected character: " + c);
                 errCode = 65;
 
         }
