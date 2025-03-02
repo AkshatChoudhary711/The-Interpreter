@@ -23,7 +23,8 @@ enum TokenType {
     GREATER_EQUAL,
     LESS,
     LESS_EQUAL,
-    STRING
+    STRING,
+    NUMBER
 
 }
 
@@ -136,6 +137,21 @@ public class MyScanner {
                     advance();
                     addToken(TokenType.STRING, '"'+str.toString()+'"', str.toString(),curLine);
                 }
+                break;
+
+            case '1','2','3','4','5','6','7','8','9','0':
+                StringBuilder num = new StringBuilder();
+                num.append(c);
+                while(Character.isDigit(peek())){
+                    num.append(advance());
+                }
+                if(peek()=='.' && Character.isDigit(source.charAt(current+1))){
+                    do {
+                        num.append(advance());
+                    } while (Character.isDigit(peek()));
+                }
+
+                addToken(TokenType.NUMBER, num.toString(), Double.parseDouble(num.toString()),curLine);
                 break;
 
             //If character not in enum
