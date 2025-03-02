@@ -32,9 +32,8 @@ public class Main {
 
         MyScanner scanner = new MyScanner(fileContents);
         scanner.scanAll();
-        System.out.println(scanner.getTokens());
         for (Token token : scanner.getTokens()) {
-//            System.out.println(token.toString());
+            System.out.println(token.toString());
 
         }
 
