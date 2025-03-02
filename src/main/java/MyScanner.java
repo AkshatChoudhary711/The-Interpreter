@@ -36,6 +36,11 @@ public class MyScanner {
     private final String source;
     private int current;
     private final List<Token> tokens = new ArrayList<>();
+    private int errCode=0;
+
+    public int getErrCode() {
+        return errCode;
+    }
 
     public List<Token> getTokens() {
         return tokens;
@@ -59,7 +64,8 @@ public class MyScanner {
                 break;
             default:
                 System.err.println("[line "+1+"] Error: Unexpected character: "+ c);
-                System.exit(65);
+                errCode = 65;
+
         }
     }
 
@@ -67,7 +73,7 @@ public class MyScanner {
         while (current < source.length()) {
             scan();
         }
-        addToken(TokenType.EOF,  null, null);
+        addToken(TokenType.EOF,  "", null);
     }
 
     char peek() {
