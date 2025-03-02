@@ -114,14 +114,19 @@ public class MyScanner {
             case  '\t', ' ':
                 break;
 
-            case '\n':    //Increment line number
+            case '\n','\r':    //Increment line number
                 curLine++;
                 break;
 
             case '"':
                 StringBuilder str = new StringBuilder();
                 while(peek()!='"' && peek()!='\0'){
-                    if(peek()=='\n') curLine++;
+                    if(peek()=='\n') {
+                    curLine++;
+//                    advance();
+//                    continue;
+                    }
+
                     str.append(advance());
                 }
                 if(peek()=='\0'){
@@ -129,12 +134,13 @@ public class MyScanner {
                     errCode = 65;
                 }else{
                     advance();
-                    addToken(TokenType.STRING, str.toString(), str.toString(),curLine);
+                    addToken(TokenType.STRING, '"'+str.toString()+'"', null,curLine);
                 }
+                break;
 
             //If character not in enum
             default:
-                System.err.println("[line " + curLine + "] Error: Unexpected character: " + c);
+                System.err.println("[line " + curLine + "] Error: Unexpected character: " + (int)c);
                 errCode = 65;
 
         }
