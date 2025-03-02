@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,13 +11,49 @@ enum TokenType {
 }
 
 
-class MyScanner{
+class MyScanner {
     private final String source;
+    private int current;
     private final List<Token> tokens = new ArrayList<>();
+
+    public List<Token> getTokens() {
+        return tokens;
+    }
 
     MyScanner(String source) {
         this.source = source;
+        this.current = 0;
+
+    }
+    void scan(){
+        char c = advance();
+        switch (c) {
+            case '(',')':System.out.println(c);
+        }
+    }
+
+    void scanAll(){
+        while (current < source.length()) {
+            scan();
+        }
+    }
+
+    char peek(){
+        if(current>=source.length()) return '\0';
+        return source.charAt(current);
+    }
+    char advance() {
+        if(current >= source.length()) return '\0';
+        char cur = source.charAt(current);
+        current++;
+        return cur;
+    }
+
+
+
+
 }
+
 
 
 class Token {
@@ -64,14 +101,18 @@ public class Main {
         // Uncomment this block to pass the first stage
         //
         for(char c : fileContents.toCharArray()) {
-        if(c=='(') System.out.println("LEFT_PAREN ( null");
-        else if(c==')') System.out.println("RIGHT_PAREN ( null");
+
+            if(c=='(') System.out.println("LEFT_PAREN ( null");
+            else if(c==')') System.out.println("RIGHT_PAREN ( null");
+
         }
+        MyScanner scanner = new MyScanner(fileContents);
+        scanner.scanAll();
+        System.out.println(scanner.getTokens());
 
 
-        System.out.println("EOF  null");
-        System.exit(0);// Placeholder, remove this line when implementing the scanner
+        System.out.println("EOF  null");// Placeholder, remove this line when implementing the scanner
     }
 
     }
-}
+
