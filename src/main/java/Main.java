@@ -69,7 +69,8 @@ public class Main {
         }
 
 
-        System.out.println("EOF  null"); // Placeholder, remove this line when implementing the scanner
+        System.out.println("EOF  null");
+        System.exit(0);// Placeholder, remove this line when implementing the scanner
     }
 
     }
