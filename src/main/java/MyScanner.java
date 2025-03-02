@@ -49,10 +49,10 @@ public class MyScanner {
     } //single tokens
 
     {
-        multiTokenMap.put("==",TokenType.EQUAL_EQUAL);
-        multiTokenMap.put("!=",TokenType.BANG_EQUAL);
-        multiTokenMap.put(">=",TokenType.GREATER_EQUAL);
-        multiTokenMap.put("<=",TokenType.LESS_EQUAL);
+        multiTokenMap.put("==", TokenType.EQUAL_EQUAL);
+        multiTokenMap.put("!=", TokenType.BANG_EQUAL);
+        multiTokenMap.put(">=", TokenType.GREATER_EQUAL);
+        multiTokenMap.put("<=", TokenType.LESS_EQUAL);
     }//double tokens
 
 
@@ -83,34 +83,31 @@ public class MyScanner {
         char c = advance();
         switch (c) {
             case '(', ')', '{', '}', '.', '*', '-', '+', ',', ';':
-//                while(peek() == '\t' || peek() == '\0' || peek() == ' ') advance();
                 addToken(singleTokenMap.get(c), Character.toString(c), null);
                 break;
 
             //Checking single slash and comments
             case '/':
-//                while(peek() == '\t' || peek() == '\0' || peek() == ' ') advance();
-                if(peek()=='/'){
+                if (peek() == '/') {
                     //A comment goes until the end of the line
-                    while(peek()!='\n' && peek()!='\0') advance();
+                    while (peek() != '\n' && peek() != '\0') advance();
 
-                }else{
-                    addToken(singleTokenMap.get(c),Character.toString(c),null);
+                } else {
+                    addToken(singleTokenMap.get(c), Character.toString(c), null);
                 }
                 break;
 
             //checking  for relational operators
             case '=', '<', '>', '!':
-//                while(peek() == '\t' || peek() == '\0' || peek() == ' ') advance();
-                if(peek() == '='){
+                if (peek() == '=') {
                     String op = Character.toString(c) + advance();
                     addToken(multiTokenMap.get(op), op, null);
-                }else{
+                } else {
                     addToken(singleTokenMap.get(c), Character.toString(c), null);
                 }
                 break;
 
-            case '\n','\t',' ' :
+            case '\n', '\t', ' ':
                 break;
 
             //If character not in enum
