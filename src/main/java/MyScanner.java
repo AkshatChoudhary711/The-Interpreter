@@ -111,10 +111,10 @@ public class MyScanner {
                 }
                 break;
 
-            case  '\t', ' ':
+            case '\r', '\t', ' ':
                 break;
 
-            case '\n','\r':    //Increment line number
+            case '\n':    //Increment line number
                 curLine++;
                 break;
 
