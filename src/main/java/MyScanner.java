@@ -57,6 +57,7 @@ public class MyScanner {
 
 
     private final String source;
+    private int curLine;
     private int current;
     private final List<Token> tokens = new ArrayList<>();
     private int errCode = 0;
@@ -73,17 +74,19 @@ public class MyScanner {
     MyScanner(String source) {
         this.source = source;
         this.current = 0;
+        this.curLine = 1;
+
     }
 
-    void addToken(TokenType tp, String ch, Object val) {
-        tokens.add(new Token(tp, ch, val));
+    void addToken(TokenType tp, String ch, Object val,int line) {
+        tokens.add(new Token(tp, ch, val,line));
     }
 
     void scan() {
         char c = advance();
         switch (c) {
             case '(', ')', '{', '}', '.', '*', '-', '+', ',', ';':
-                addToken(singleTokenMap.get(c), Character.toString(c), null);
+                addToken(singleTokenMap.get(c), Character.toString(c), null,curLine);
                 break;
 
             //Checking single slash and comments
@@ -93,7 +96,7 @@ public class MyScanner {
                     while (peek() != '\n' && peek() != '\0') advance();
 
                 } else {
-                    addToken(singleTokenMap.get(c), Character.toString(c), null);
+                    addToken(singleTokenMap.get(c), Character.toString(c), null,curLine);
                 }
                 break;
 
@@ -101,13 +104,17 @@ public class MyScanner {
             case '=', '<', '>', '!':
                 if (peek() == '=') {
                     String op = Character.toString(c) + advance();
-                    addToken(multiTokenMap.get(op), op, null);
+                    addToken(multiTokenMap.get(op), op, null,curLine);
                 } else {
-                    addToken(singleTokenMap.get(c), Character.toString(c), null);
+                    addToken(singleTokenMap.get(c), Character.toString(c), null,curLine);
                 }
                 break;
 
-            case '\n', '\t', ' ':
+            case  '\t', ' ':
+                break;
+
+            case '\n':    //Increment line number
+                curLine++;
                 break;
 
             //If character not in enum
@@ -123,7 +130,7 @@ public class MyScanner {
         while (current < source.length()) {
             scan();
         }
-        addToken(TokenType.EOF, "", null);
+        addToken(TokenType.EOF, "", null,curLine);
     }
 
     char peek() {
