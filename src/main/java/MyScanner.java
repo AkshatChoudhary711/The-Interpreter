@@ -87,7 +87,7 @@ public class MyScanner {
         char c = advance();
         switch (c) {
             case '(', ')', '{', '}', '.', '*', '-', '+', ',', ';':
-                addToken(singleTokenMap.get(c), Character.toString(c), null,curLine);
+                addToken(singleTokenMap.get(c), Character.toString(c), null,this.curLine);
                 break;
 
             //Checking single slash and comments
@@ -97,7 +97,7 @@ public class MyScanner {
                     while (peek() != '\n' && peek() != '\0') advance();
 
                 } else {
-                    addToken(singleTokenMap.get(c), Character.toString(c), null,curLine);
+                    addToken(singleTokenMap.get(c), Character.toString(c), null,this.curLine);
                 }
                 break;
 
@@ -117,6 +117,7 @@ public class MyScanner {
             case '\n':    //Increment line number
                 curLine++;
                 break;
+
             case '"':
                 StringBuilder str = new StringBuilder();
                 while(peek()!='"' && peek()!='\0'){
