@@ -82,10 +82,22 @@ public class MyScanner {
     void scan() {
         char c = advance();
         switch (c) {
-            case '(', ')', '{', '}', '.', '*', '-', '+', ',', ';', '/':
+            case '(', ')', '{', '}', '.', '*', '-', '+', ',', ';':
                 addToken(singleTokenMap.get(c), Character.toString(c), null);
                 break;
 
+            //Checking single slash and comments
+            case '/':
+                if(peek()=='/'){
+                    //A comment goes until the end of the line
+                    while(peek()!='\n' && peek()!='\0') advance();
+
+                }else{
+                    addToken(singleTokenMap.get(c),Character.toString(c),null);
+                }
+                break;
+
+            //checking  for relational operators
             case '=', '<', '>', '!':
                 if(peek() == '='){
                     String op = Character.toString(c) + advance();
@@ -98,6 +110,7 @@ public class MyScanner {
             case '\n':
                 break;
 
+            //If character not in enum
             default:
                 System.err.println("[line " + 1 + "] Error: Unexpected character: " + c);
                 errCode = 65;
