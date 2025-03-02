@@ -67,7 +67,7 @@ public class MyScanner {
         while (current < source.length()) {
             scan();
         }
-        addToken(TokenType.EOF,  "", null);
+        addToken(TokenType.EOF,  " ", null);
     }
 
     char peek() {
