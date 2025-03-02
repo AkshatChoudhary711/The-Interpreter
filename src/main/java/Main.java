@@ -4,20 +4,6 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.List;
 
-enum TokenType {
-    LEFT_PAREN,
-    RIGHT_PAREN,
-    LEFT_BRACE,
-    RIGHT_BRACE,
-    STAR,
-    PLUS,
-    MINUS,
-    SEMICOLON,
-    COMMA,
-    SLASH,
-    DOT
-}
-
 public class Main {
     public static void main(String[] args) {
         // You can use print statements as follows for debugging, they'll be visible when running tests.
@@ -44,22 +30,12 @@ public class Main {
             System.exit(1);
         }
 
-        // Uncomment this block to pass the first stage
-        //
-//        for(char c : fileContents.toCharArray()) {
-//
-//            if(c=='(') System.out.println("LEFT_PAREN ( null");
-//            else if(c==')') System.out.println("RIGHT_PAREN ( null");
-//
-//        }
         MyScanner scanner = new MyScanner(fileContents);
         scanner.scanAll();
         for (Token token : scanner.getTokens()) {
-            System.out.println(token);
+            System.out.println(token.toString());
         }
 
-
-        System.out.println("EOF  null");// Placeholder, remove this line when implementing the scanner
     }
 
 }

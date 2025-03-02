@@ -2,6 +2,21 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+enum TokenType {
+    LEFT_PAREN,
+    RIGHT_PAREN,
+    LEFT_BRACE,
+    RIGHT_BRACE,
+    STAR,
+    PLUS,
+    MINUS,
+    SEMICOLON,
+    COMMA,
+    SLASH,
+    DOT,
+    EOF
+}
+
 public class MyScanner {
     HashMap<Character, TokenType> singleTokenMap = new HashMap<>();
     {
@@ -26,22 +41,10 @@ public class MyScanner {
         return tokens;
     }
 
+
     MyScanner(String source) {
         this.source = source;
         this.current = 0;
-        {
-            singleTokenMap.put('(', TokenType.LEFT_PAREN);
-            singleTokenMap.put(')', TokenType.RIGHT_PAREN);
-            singleTokenMap.put('{', TokenType.LEFT_BRACE);
-            singleTokenMap.put('}', TokenType.RIGHT_BRACE);
-            singleTokenMap.put('*', TokenType.STAR);
-            singleTokenMap.put('+', TokenType.PLUS);
-            singleTokenMap.put('-', TokenType.MINUS);
-            singleTokenMap.put(';', TokenType.SEMICOLON);
-            singleTokenMap.put(',', TokenType.COMMA);
-            singleTokenMap.put('/', TokenType.SLASH);
-            singleTokenMap.put('.', TokenType.DOT);
-        } //single tokens
     }
 
     void addToken(TokenType tp, String ch, Object val) {
@@ -53,6 +56,9 @@ public class MyScanner {
         switch (c) {
             case '(', ')', '{', '}', '.', '*', '-', '+', ',', ';', '/':
                 addToken(singleTokenMap.get(c), Character.toString(c), null);
+                break;
+            default:
+                System.err.println("[line "+1+"] Error: Unexpected character: "+ c);
         }
     }
 
@@ -60,6 +66,7 @@ public class MyScanner {
         while (current < source.length()) {
             scan();
         }
+        addToken(TokenType.EOF,  " ", null);
     }
 
     char peek() {
@@ -73,6 +80,4 @@ public class MyScanner {
         current++;
         return cur;
     }
-
-
 }
