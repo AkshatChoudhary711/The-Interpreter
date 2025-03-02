@@ -7,7 +7,7 @@ import java.util.List;
 
 
 enum TokenType {
-    LEFT_PAREN, RIGHT_PAREN, LEFT_BRACE, RIGHT_BRACE
+    LEFT_PAREN, RIGHT_PAREN, LEFT_BRACE, RIGHT_BRACE, STAR, PLUS, MINUS, SEMICOLON, COMMA, SLASH, DOT
 }
 //class CharactersMap{
 // static HashMap<Character, Character> map = new HashMap<>();
@@ -33,6 +33,15 @@ class MyScanner {
         map.put(')',TokenType.RIGHT_PAREN);
         map.put('{',TokenType.LEFT_BRACE);
         map.put('}',TokenType.RIGHT_BRACE);
+        map.put('*',TokenType.STAR);
+        map.put('+',TokenType.PLUS);
+        map.put('-',TokenType.MINUS);
+        map.put(';',TokenType.SEMICOLON);
+        map.put(',',TokenType.COMMA);
+        map.put('/',TokenType.SLASH);
+        map.put('.',TokenType.DOT);
+
+
 
 
     }
@@ -44,7 +53,7 @@ class MyScanner {
     void scan(){
         char c = advance();
         switch (c) {
-            case '(',')','{','}':
+            case '(',')','{','}','.','*','-','+',',',';','/':
                 addToken(map.get(c),Character.toString(c),null);
         }
     }
