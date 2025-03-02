@@ -161,7 +161,7 @@ public class MyScanner {
                 if(Character.isAlphabetic(c)|| c=='_'){
                     StringBuilder id = new StringBuilder();
                     id.append(c);
-                    while(Character.isAlphabetic(peek()) || Character.isDigit(peek())){
+                    while(Character.isAlphabetic(peek()) || Character.isDigit(peek())|| peek()=='_'){
                         id.append(advance());
                     }
                     addToken(TokenType.IDENTIFIER, id.toString(), null,curLine);
