@@ -2,16 +2,21 @@ import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Scanner;
+
 
 enum TokenType {
     LEFT_PAREN, RIGHT_PAREN
 }
+//class CharactersMap{
+// static HashMap<Character, Character> map = new HashMap<>();
+//}
+
 
 
 class MyScanner {
+    HashMap<Character,TokenType> map = new HashMap<>();
     private final String source;
     private int current;
     private final List<Token> tokens = new ArrayList<>();
@@ -21,14 +26,23 @@ class MyScanner {
     }
 
     MyScanner(String source) {
+
         this.source = source;
         this.current = 0;
+        map.put('(',TokenType.LEFT_PAREN);
+        map.put(')',TokenType.RIGHT_PAREN);
 
     }
+
+    void addToken(TokenType tp,String ch,Object val  ) {
+        tokens.add(new Token(tp,ch,val));
+    }
+
     void scan(){
         char c = advance();
         switch (c) {
-            case '(',')':System.out.println(c);
+            case '(',')':
+                addToken(map.get(c),Character.toString(c),null);
         }
     }
 
@@ -100,12 +114,12 @@ public class Main {
 
         // Uncomment this block to pass the first stage
         //
-        for(char c : fileContents.toCharArray()) {
-
-            if(c=='(') System.out.println("LEFT_PAREN ( null");
-            else if(c==')') System.out.println("RIGHT_PAREN ( null");
-
-        }
+//        for(char c : fileContents.toCharArray()) {
+//
+//            if(c=='(') System.out.println("LEFT_PAREN ( null");
+//            else if(c==')') System.out.println("RIGHT_PAREN ( null");
+//
+//        }
         MyScanner scanner = new MyScanner(fileContents);
         scanner.scanAll();
         System.out.println(scanner.getTokens());
