@@ -7,7 +7,7 @@ import java.util.List;
 
 
 enum TokenType {
-    LEFT_PAREN, RIGHT_PAREN
+    LEFT_PAREN, RIGHT_PAREN, LEFT_BRACE, RIGHT_BRACE
 }
 //class CharactersMap{
 // static HashMap<Character, Character> map = new HashMap<>();
@@ -31,6 +31,9 @@ class MyScanner {
         this.current = 0;
         map.put('(',TokenType.LEFT_PAREN);
         map.put(')',TokenType.RIGHT_PAREN);
+        map.put('{',TokenType.LEFT_BRACE);
+        map.put('}',TokenType.RIGHT_BRACE);
+
 
     }
 
@@ -41,7 +44,7 @@ class MyScanner {
     void scan(){
         char c = advance();
         switch (c) {
-            case '(',')':
+            case '(',')','{','}':
                 addToken(map.get(c),Character.toString(c),null);
         }
     }
