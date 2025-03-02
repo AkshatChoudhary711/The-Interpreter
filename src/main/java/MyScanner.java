@@ -14,11 +14,22 @@ enum TokenType {
     COMMA,
     SLASH,
     DOT,
-    EOF
+    EOF,
+    EQUAL,
+    BANG,
+    EQUAL_EQUAL,
+    BANG_EQUAL,
+    GREATER,
+    GREATER_EQUAL,
+    LESS,
+    LESS_EQUAL,
+
 }
 
 public class MyScanner {
     HashMap<Character, TokenType> singleTokenMap = new HashMap<>();
+    HashMap<String, TokenType> multiTokenMap = new HashMap<>();
+
     {
         singleTokenMap.put('(', TokenType.LEFT_PAREN);
         singleTokenMap.put(')', TokenType.RIGHT_PAREN);
@@ -31,12 +42,24 @@ public class MyScanner {
         singleTokenMap.put(',', TokenType.COMMA);
         singleTokenMap.put('/', TokenType.SLASH);
         singleTokenMap.put('.', TokenType.DOT);
+        singleTokenMap.put('=', TokenType.EQUAL);
+        singleTokenMap.put('!', TokenType.BANG);
+        singleTokenMap.put('>', TokenType.GREATER);
+        singleTokenMap.put('<', TokenType.LESS);
     } //single tokens
+
+    {
+        multiTokenMap.put("==",TokenType.EQUAL_EQUAL);
+        multiTokenMap.put("!=",TokenType.BANG_EQUAL);
+        multiTokenMap.put(">=",TokenType.GREATER_EQUAL);
+        multiTokenMap.put("<=",TokenType.LESS_EQUAL);
+    }//double tokens
+
 
     private final String source;
     private int current;
     private final List<Token> tokens = new ArrayList<>();
-    private int errCode=0;
+    private int errCode = 0;
 
     public int getErrCode() {
         return errCode;
@@ -62,18 +85,32 @@ public class MyScanner {
             case '(', ')', '{', '}', '.', '*', '-', '+', ',', ';', '/':
                 addToken(singleTokenMap.get(c), Character.toString(c), null);
                 break;
+
+            case '=', '<', '>', '!':
+                if(peek() == '='){
+                    String op = Character.toString(c) + advance();
+                    addToken(multiTokenMap.get(op), op, null);
+                }else{
+                    addToken(singleTokenMap.get(c), Character.toString(c), null);
+                }
+                break;
+
+            case '\n':
+                break;
+
             default:
-                System.err.println("[line "+1+"] Error: Unexpected character: "+ c);
+                System.err.println("[line " + 1 + "] Error: Unexpected character: " + c);
                 errCode = 65;
 
         }
     }
 
+
     void scanAll() {
         while (current < source.length()) {
             scan();
         }
-        addToken(TokenType.EOF,  "", null);
+        addToken(TokenType.EOF, "", null);
     }
 
     char peek() {
