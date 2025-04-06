@@ -141,7 +141,7 @@ public class MyScanner {
                 }
                 break;
 
-            //checking  for relational operators
+            //checking for relational operators
             case '=', '<', '>', '!':
                 if (checkNext() == '=') {
                     String op = Character.toString(c) + moveNext();
