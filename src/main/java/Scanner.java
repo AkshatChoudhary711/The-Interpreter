@@ -2,50 +2,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-enum TokenType {
-    LEFT_PAREN,
-    RIGHT_PAREN,
-    LEFT_BRACE,
-    RIGHT_BRACE,
-    STAR,
-    PLUS,
-    MINUS,
-    SEMICOLON,
-    COMMA,
-    SLASH,
-    DOT,
-    EOF,
-    EQUAL,
-    BANG,
-    EQUAL_EQUAL,
-    BANG_EQUAL,
-    GREATER,
-    GREATER_EQUAL,
-    LESS,
-    LESS_EQUAL,
-    STRING,
-    NUMBER,
-    IDENTIFIER,
-    AND,
-    OR,
-    IF,
-    ELSE,
-    WHILE,
-    FOR,
-    FUN,
-    RETURN,
-    VAR,
-    CLASS,
-    THIS,
-    SUPER,
-    NIL,
-    TRUE,
-    FALSE,
-    PRINT,
-    BREAK,
-    CONTINUE
 
-}
 
 public class MyScanner {
     HashMap<Character, TokenType> singleTokenMap = new HashMap<>();
