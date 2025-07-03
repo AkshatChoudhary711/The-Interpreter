@@ -22,7 +22,7 @@ public class AstPrinter implements Expr.Visitor<String> {
 
     @Override
     public String visitLiteralExpr(Expr.Literal expr) {
-        if (expr.value == "nil") return "nil";
+        if (expr.value == null) return "nil";
         return expr.value.toString();
     }
 

@@ -1,72 +1,70 @@
-public class Interpreter implements Expr.Visitor<Object>{
-
-
+public class Interpreter implements Expr.Visitor<Object> {
 
     @Override
     public Object visitBinaryExpr(Expr.Binary expr) {
         Object left = evaluate(expr.left);
         Object right = evaluate(expr.right);
 
-        switch(expr.operator.type){
-            case MINUS :
-                if(checkNumberOperands(expr.operator, left, right)) return null;
-                if(left instanceof Double && right instanceof Double) {
-                    return (double)left - (double)right;
+        switch (expr.operator.type) {
+            case MINUS:
+                if (checkNumberOperands(expr.operator, left, right)) return null;
+                if (left instanceof Double && right instanceof Double) {
+                    return (double) left - (double) right;
                 }
                 break;
 
             case SLASH:
-                if(checkNumberOperands(expr.operator, left, right)) return null;
-                if(left instanceof Double && right instanceof Double) {
-                    if((double)right == 0) {
+                if (checkNumberOperands(expr.operator, left, right)) return null;
+                if (left instanceof Double && right instanceof Double) {
+                    if ((double) right == 0) {
                         throw new RuntimeException("Division by zero");
                     }
-                    return (double)left / (double)right;
+                    return (double) left / (double) right;
                 }
                 break;
 
             case STAR:
-                if(checkNumberOperands(expr.operator, left, right)) return null;
-                if(left instanceof Double && right instanceof Double) {
-                    return (double)left * (double)right;
+                if (checkNumberOperands(expr.operator, left, right)) return null;
+                if (left instanceof Double && right instanceof Double) {
+                    return (double) left * (double) right;
                 }
                 break;
 
             case PLUS:
-                if(left instanceof Double && right instanceof Double) {
-                    return (double)left + (double)right;
-                } else if(left instanceof String && right instanceof String) {
-                    return (String)left + (String)right;
-                } else{
+                if (left instanceof Double && right instanceof Double) {
+                    return (double) left + (double) right;
+                } else if (left instanceof String && right instanceof String) {
+                    return (String) left + (String) right;
+                } else {
                     throw new RuntimeError(expr.operator, "Operands must be two numbers or two strings.");
                 }
 
 
             case GREATER:
-                if(checkNumberOperands(expr.operator, left, right)) return null;
-                if(left instanceof Double && right instanceof Double) {
-                    return (double)left > (double)right;
+                if (checkNumberOperands(expr.operator, left, right)) return null;
+                if (left instanceof Double && right instanceof Double) {
+                    return (double) left > (double) right;
                 }
                 break;
 
             case GREATER_EQUAL:
-                if(checkNumberOperands(expr.operator, left, right)) return null;
-                if(left instanceof Double && right instanceof Double) {
-                    return (double)left >= (double)right;
+                if (checkNumberOperands(expr.operator, left, right)) return null;
+                if (left instanceof Double && right instanceof Double) {
+                    return (double) left >= (double) right;
                 }
                 break;
 
             case LESS:
-                if(checkNumberOperands(expr.operator, left, right)) return null;
-                if(left instanceof Double && right instanceof Double) {
-                    return (double)left < (double)right;
+                if (checkNumberOperands(expr.operator, left, right)) return null;
+                if (left instanceof Double && right instanceof Double) {
+                    return (double) left < (double) right;
                 }
                 break;
 
             case LESS_EQUAL:
-                if(checkNumberOperands(expr.operator, left, right)) return null;
-                if(left instanceof Double && right instanceof Double) {
-                    return (double)left <= (double)right;
+                if (checkNumberOperands(expr.operator, left, right)) return null;
+                if (left instanceof Double && right instanceof Double) {
+                    return (double) left <= (double) right;
                 }
                 break;
 
@@ -77,7 +75,7 @@ public class Interpreter implements Expr.Visitor<Object>{
 
 
         }
-        return null;
+        return "nil";
     }
 
     @Override
@@ -86,8 +84,8 @@ public class Interpreter implements Expr.Visitor<Object>{
 
         switch (expr.operator.type) {
             case MINUS:
-                if(!checkNumberOperand(expr.operator, right)) return null;
-                return -(double)right;
+                if (checkNumberOperand(expr.operator, right)) return null;
+                return -(double) right;
             case BANG:
                 return !isTruthy(right);
         }
@@ -108,15 +106,15 @@ public class Interpreter implements Expr.Visitor<Object>{
         return expr.accept(this);
     }
 
-    private boolean isTruthy(Object obj){
-        if(obj == null) return false;
-        if(obj instanceof Boolean) return (boolean)obj;
+    private boolean isTruthy(Object obj) {
+        if (obj == null) return false;
+        if (obj instanceof Boolean) return (boolean) obj;
         return true;
     }
 
-    private boolean isEqual(Object a, Object b){
-        if(a == null && b == null) return true;
-        if(a == null) return false;
+    private boolean isEqual(Object a, Object b) {
+        if (a == null && b == null) return true;
+        if (a == null) return false;
         return a.equals(b);
     }
 
@@ -130,7 +128,7 @@ public class Interpreter implements Expr.Visitor<Object>{
 
     private boolean checkNumberOperands(Token operator, Object left, Object right) {
         if (left instanceof Double && right instanceof Double) {
-            return false;
+            return true;
         } else {
             throw new RuntimeError(operator, "Operands must be numbers.");
         }
@@ -158,7 +156,6 @@ public class Interpreter implements Expr.Visitor<Object>{
 
         return object.toString();
     }
-
 
 
 }
