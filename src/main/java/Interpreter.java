@@ -101,7 +101,7 @@ public class Interpreter implements Expr.Visitor<Object> {
         if (operand instanceof Double) {
             return true;
         }
-        throw new RuntimeError(operator, "Operand must be a number.");
+        throw new RuntimeError(operator, "Operand must be a number !.");
     }
 
     private void checkNumberOperands(Token operator, Object left, Object right) {
