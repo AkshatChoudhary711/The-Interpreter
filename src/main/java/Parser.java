@@ -1,6 +1,5 @@
 import java.util.List;
 
-
 public class Parser {
     private static class ParseError extends RuntimeException {}
     private final List<Token> tokens;
@@ -97,7 +96,6 @@ public class Parser {
         throw error(peek(), "Expect expression.");
     }
 
-
     private boolean match(TokenType... types) {
         for (TokenType type : types) {
             if (check(type)) {
@@ -114,8 +112,6 @@ public class Parser {
 
         throw error(peek(), message);
     }
-
-
 
     private boolean check(TokenType type) {
         if (isAtEnd()) return false;

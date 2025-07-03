@@ -16,7 +16,7 @@ public class Main {
         String command = args[0];
         String filename = args[1];
 
-        if (!command.equals("tokenize") && !command.equals("parse")) {
+        if (!command.equals("tokenize") && !command.equals("parse") && !command.equals("evaluate")) {
             System.err.println("Unknown command: " + command);
             System.exit(1);
         }else if(command.equals("tokenize")){
@@ -35,7 +35,25 @@ public class Main {
 
             }
             if(myScanner.getErrCode() !=0) System.exit(myScanner.getErrCode());
-        }else{
+        }
+        else if(command.equals("evaluate")){
+            String fileContents = "";
+            try {
+                fileContents = Files.readString(Path.of(filename));
+            } catch (IOException e) {
+                System.err.println("Error reading file: " + e.getMessage());
+                System.exit(1);
+            }
+
+            MyScanner myScanner = new MyScanner(fileContents);
+            myScanner.scanSource();
+            Parser parser = new Parser(myScanner.getTokens());
+            Expr expr = parser.parse();
+            Interpreter interpreter = new Interpreter();
+            System.out.println(expr.accept(interpreter));
+
+        }
+        else{
             String fileContents = "";
             try {
                 fileContents = Files.readString(Path.of(filename));
