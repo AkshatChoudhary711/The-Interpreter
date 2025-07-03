@@ -51,6 +51,13 @@ public class Main {
             Expr expr = parser.parse();
             Interpreter interpreter = new Interpreter();
             interpreter.interpret(expr);
+            if (Lox.hadRuntimeError) {
+                System.exit(70);
+            }
+            if (Lox.hadError) {
+                System.exit(65);
+            }
+
 
         }
         else{
@@ -68,7 +75,7 @@ public class Main {
             Expr expr = parser.parse();
             AstPrinter printer = new AstPrinter();
             System.out.println(printer.print(expr));
-            Lox lox = new Lox();
+
 
 
         }
