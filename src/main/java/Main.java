@@ -50,7 +50,7 @@ public class Main {
             Parser parser = new Parser(myScanner.getTokens());
             Expr expr = parser.parse();
             Interpreter interpreter = new Interpreter();
-            System.out.println(expr.accept(interpreter));
+            interpreter.interpret(expr);
 
         }
         else{

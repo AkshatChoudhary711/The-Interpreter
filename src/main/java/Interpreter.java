@@ -7,73 +7,50 @@ public class Interpreter implements Expr.Visitor<Object> {
 
         switch (expr.operator.type) {
             case MINUS:
-                if (checkNumberOperands(expr.operator, left, right)) return null;
-                if (left instanceof Double && right instanceof Double) {
-                    return (double) left - (double) right;
-                }
-                break;
+                checkNumberOperands(expr.operator, left, right);
+                return (double)left - (double)right;
 
             case SLASH:
-                if (checkNumberOperands(expr.operator, left, right)) return null;
-                if (left instanceof Double && right instanceof Double) {
-                    if ((double) right == 0) {
-                        throw new RuntimeException("Division by zero");
-                    }
-                    return (double) left / (double) right;
+                checkNumberOperands(expr.operator, left, right);
+                if ((double)right == 0) {
+                    throw new RuntimeException("Division by zero");
                 }
-                break;
+                return (double)left / (double)right;
 
             case STAR:
-                if (checkNumberOperands(expr.operator, left, right)) return null;
-                if (left instanceof Double && right instanceof Double) {
-                    return (double) left * (double) right;
-                }
-                break;
+                checkNumberOperands(expr.operator, left, right);
+                return (double)left * (double)right;
 
             case PLUS:
                 if (left instanceof Double && right instanceof Double) {
-                    return (double) left + (double) right;
+                    return (double)left + (double)right;
                 } else if (left instanceof String && right instanceof String) {
-                    return (String) left + (String) right;
+                    return (String)left + (String)right;
                 } else {
-                    throw new RuntimeError(expr.operator, "Operands must be two numbers or two strings.");
+                    throw new RuntimeError(expr.operator, 
+                        "Operands must be two numbers or two strings.");
                 }
-
 
             case GREATER:
-                if (checkNumberOperands(expr.operator, left, right)) return null;
-                if (left instanceof Double && right instanceof Double) {
-                    return (double) left > (double) right;
-                }
-                break;
+                checkNumberOperands(expr.operator, left, right);
+                return (double)left > (double)right;
 
             case GREATER_EQUAL:
-                if (checkNumberOperands(expr.operator, left, right)) return null;
-                if (left instanceof Double && right instanceof Double) {
-                    return (double) left >= (double) right;
-                }
-                break;
+                checkNumberOperands(expr.operator, left, right);
+                return (double)left >= (double)right;
 
             case LESS:
-                if (checkNumberOperands(expr.operator, left, right)) return null;
-                if (left instanceof Double && right instanceof Double) {
-                    return (double) left < (double) right;
-                }
-                break;
+                checkNumberOperands(expr.operator, left, right);
+                return (double)left < (double)right;
 
             case LESS_EQUAL:
-                if (checkNumberOperands(expr.operator, left, right)) return null;
-                if (left instanceof Double && right instanceof Double) {
-                    return (double) left <= (double) right;
-                }
-                break;
+                checkNumberOperands(expr.operator, left, right);
+                return (double)left <= (double)right;
 
             case EQUAL_EQUAL:
                 return isEqual(left, right);
             case BANG_EQUAL:
                 return !isEqual(left, right);
-
-
         }
         return null;
     }
@@ -84,8 +61,8 @@ public class Interpreter implements Expr.Visitor<Object> {
 
         switch (expr.operator.type) {
             case MINUS:
-                if (checkNumberOperand(expr.operator, right)) return null;
-                return -(double) right;
+                checkNumberOperand(expr.operator, right);
+                return -(double)right;
             case BANG:
                 return !isTruthy(right);
         }
@@ -99,10 +76,12 @@ public class Interpreter implements Expr.Visitor<Object> {
 
     @Override
     public Object visitLiteralExpr(Expr.Literal expr) {
+
         return expr.value;
     }
 
     private Object evaluate(Expr expr) {
+
         return expr.accept(this);
     }
 
@@ -121,15 +100,12 @@ public class Interpreter implements Expr.Visitor<Object> {
     private boolean checkNumberOperand(Token operator, Object operand) {
         if (operand instanceof Double) {
             return true;
-        } else {
-            throw new RuntimeError(operator, "Operand must be a number.");
         }
+        throw new RuntimeError(operator, "Operand must be a number.");
     }
 
-    private boolean checkNumberOperands(Token operator, Object left, Object right) {
-        if (left instanceof Double && right instanceof Double) {
-            return true;
-        } else {
+    private void checkNumberOperands(Token operator, Object left, Object right) {
+        if (!(left instanceof Double && right instanceof Double)) {
             throw new RuntimeError(operator, "Operands must be numbers.");
         }
     }
@@ -137,17 +113,22 @@ public class Interpreter implements Expr.Visitor<Object> {
     void interpret(Expr expression) {
         try {
             Object value = evaluate(expression);
-            System.out.println(stringify(value));
+            System.out.println("Before stringify: " + value); // Debug print
+            String result = stringify(value);
+            System.out.println("After stringify: " + result); // Debug print
+            System.out.println(result);
         } catch (RuntimeError error) {
             Lox.runtimeError(error);
         }
     }
 
     private String stringify(Object object) {
+        System.out.println("Stringify called with: " + object); // Debug print
         if (object == null) return "nil";
 
         if (object instanceof Double) {
             String text = object.toString();
+            System.out.println("Number text: " + text); // Debug print
             if (text.endsWith(".0")) {
                 text = text.substring(0, text.length() - 2);
             }

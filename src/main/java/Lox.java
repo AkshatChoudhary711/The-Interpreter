@@ -50,6 +50,8 @@ public class Lox {
         Parser parser = new Parser(tokens);
         Expr expression = parser.parse();
 
+        System.out.println("Debug "+expression);
+
         // Stop if there was a syntax error.
         if (hadError) return;
 
