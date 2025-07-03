@@ -113,9 +113,7 @@ public class Interpreter implements Expr.Visitor<Object> {
     void interpret(Expr expression) {
         try {
             Object value = evaluate(expression);
-            System.out.println("Before stringify: " + value); // Debug print
             String result = stringify(value);
-            System.out.println("After stringify: " + result); // Debug print
             System.out.println(result);
         } catch (RuntimeError error) {
             Lox.runtimeError(error);
@@ -123,12 +121,10 @@ public class Interpreter implements Expr.Visitor<Object> {
     }
 
     private String stringify(Object object) {
-        System.out.println("Stringify called with: " + object); // Debug print
         if (object == null) return "nil";
 
         if (object instanceof Double) {
             String text = object.toString();
-            System.out.println("Number text: " + text); // Debug print
             if (text.endsWith(".0")) {
                 text = text.substring(0, text.length() - 2);
             }
