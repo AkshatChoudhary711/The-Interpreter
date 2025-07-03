@@ -44,7 +44,7 @@ public class MyScanner {
         keywordMap.put("class", TokenType.CLASS);
         keywordMap.put("this", TokenType.THIS);
         keywordMap.put("super", TokenType.SUPER);
-        keywordMap.put("nil", TokenType.NIL);
+        keywordMap.put("null", TokenType.NIL);
         keywordMap.put("true", TokenType.TRUE);
         keywordMap.put("false", TokenType.FALSE);
         keywordMap.put("print", TokenType.PRINT);
