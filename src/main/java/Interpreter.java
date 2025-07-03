@@ -89,7 +89,7 @@ public class Interpreter implements Expr.Visitor<Object> {
             case BANG:
                 return !isTruthy(right);
         }
-        return "nil";
+        return null;
     }
 
     @Override
