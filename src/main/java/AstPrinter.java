@@ -1,6 +1,12 @@
 public class AstPrinter implements Expr.Visitor<String> {
     String print(Expr expr) {
-        return expr.accept(this);
+        String res="";
+        try{
+            res = expr.accept(this);
+        } catch (Exception e) {
+            System.exit(65);
+        }
+        return res;
     }
 
     @Override
