@@ -2,8 +2,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
-
 public class MyScanner {
     HashMap<Character, TokenType> singleTokenMap = new HashMap<>();
     HashMap<String, TokenType> multiTokenMap = new HashMap<>();
@@ -67,7 +65,6 @@ public class MyScanner {
     public List<Token> getTokens() {
         return tokens;
     }
-
 
     MyScanner(String source) {
         this.source = source;
