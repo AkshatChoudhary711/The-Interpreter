@@ -68,6 +68,8 @@ public class Main {
             Expr expr = parser.parse();
             AstPrinter printer = new AstPrinter();
             System.out.println(printer.print(expr));
+            Lox lox = new Lox();
+
 
         }
 

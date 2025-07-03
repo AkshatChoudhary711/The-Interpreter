@@ -17,6 +17,7 @@ public class Lox {
             System.out.println("Usage: lox [script]");
             System.exit(64);
         } else if (args.length == 1) {
+            System.out.println("Debug");
             runFile(args[0]);
         } else {
             runPrompt();
@@ -50,8 +51,6 @@ public class Lox {
         Parser parser = new Parser(tokens);
         Expr expression = parser.parse();
 
-        System.out.println("Debug "+expression);
-
         // Stop if there was a syntax error.
         if (hadError) return;
 
@@ -82,7 +81,7 @@ public class Lox {
     static void runtimeError(RuntimeError error) {
         System.err.println(error.getMessage() +
                 " [line " + error.token.line + "]");
-        hadError = true;
+        hadRuntimeError = true;
     }
 
 }
